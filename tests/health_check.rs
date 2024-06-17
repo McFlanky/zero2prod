@@ -1,11 +1,6 @@
-use actix_web::body;
-use reqwest::Client;
 use sqlx::{Connection, PgConnection};
-use std::{fmt::format, net::TcpListener};
-use zero2prod::{
-    configuration::{self, get_configuration},
-    startup::run,
-};
+use std::net::TcpListener;
+use zero2prod::{configuration::get_configuration, startup::run};
 
 fn spawn_app() -> String {
     let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
@@ -36,6 +31,7 @@ async fn health_check_works() {
     assert_eq!(Some(0), response.content_length());
 }
 
+#[tokio::test]
 async fn subscribe_returns_a_200_valid_form_data() {
     // Arrange
     let app_address = spawn_app();
